@@ -11,11 +11,11 @@ public interface Calculator extends Remote
     public void pushOperation(String operator) throws RemoteException;
 
     // Pop the top of the client and return it to the client
-    public int pop() throws RemoteException;
+    public Integer pop() throws RemoteException;
 
     // Return true if stack is empty
     public boolean isEmpty() throws RemoteException;
 
     // Wait Millis milliseconds before carrying out the pop operation
-    public int delayPop(int millis) throws RemoteException;
+    public Integer delayPop(int millis) throws RemoteException;
 }
