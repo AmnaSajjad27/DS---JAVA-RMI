@@ -131,5 +131,25 @@ public class CalculatorClient implements Runnable
             e.printStackTrace();
         }
     }
-}
 
+    public static void main(String[] args)
+    {
+        String host = (args.length < 1) ? null : args[0];
+        try
+        {
+            Registry registry = LocateRegistry.getRegistry(host);
+            Calculator stub = (Calculator) registry.lookup("Calculator");
+
+            for (int i = 0; i < 4; i++)
+            {
+                Thread t = new Thread(new CalculatorClient(stub));
+                t.start();
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("CalculatorClient exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+}
