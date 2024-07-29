@@ -1,0 +1,5 @@
+pushValue 15
+pushValue 5
+pushOperation min
+pop
+exit

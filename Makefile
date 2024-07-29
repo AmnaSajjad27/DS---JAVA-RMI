@@ -22,4 +22,4 @@ client: CalculatorClient.class
 # the reason for 2 expected outputs is because the pop command in line 6
 # of TestInput1.txt could print first or the isEmpty in line 6 of TestInput3.txt 
 outputCompare: 
-	diff Output.txt ExpectedOutput1.txt
+	diff Output.txt ExpectedOutput1.txt & diff Output.txt ExpectedOutput2.txt

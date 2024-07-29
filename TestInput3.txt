@@ -1,0 +1,5 @@
+pushValue 12
+pushValue 8
+pushOperation gcd
+pop
+exit

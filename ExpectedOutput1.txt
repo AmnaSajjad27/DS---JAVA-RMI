@@ -1,8 +1,9 @@
-true
 null
-false
+null
+20
+15
+4
+8
 1
--10
-true
-30
-60
+5
+100

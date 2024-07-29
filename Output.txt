@@ -1,9 +1,12 @@
 Max value: null
 Max value: null
-Max value: 20
+Max value: null
 Min value: null
+Min value: null
+Max value: 20
 Min value: 15
 Min value: 5
-Popped value after delay: 5
 Popped value after delay: 10
+Popped value after delay: 5
+Popped value after delay: -1
 Popped value after delay: -1

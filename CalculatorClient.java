@@ -75,7 +75,7 @@ public class CalculatorClient implements Runnable
     {
         try
         {
-            String file = "./Test_input_1" + Thread.currentThread().getName() + ".txt";
+            String file = "./TestInputX" + Thread.currentThread().getName() + ".txt";
             file = file.replace("Thread-", "");
 
             Scanner in = new Scanner(new File(file));
