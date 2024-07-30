@@ -20,5 +20,6 @@ public interface Calculator extends Remote
     public Integer delayPop(String id, int millis) throws RemoteException;
 
     // Adding functionality to implement multiple users each with their own stack 
+    // a unique id is created that is mapped to its own stack 
     public String UserID() throws RemoteException;
 }

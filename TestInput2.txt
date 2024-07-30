@@ -1,5 +1,10 @@
-pushValue 15
-pushValue 5
+pushValue 40
+pushValue 50
+pushOperation gcd
+pop
+pushValue 7
+pushValue 3
 pushOperation min
 pop
+isEmpty
 exit

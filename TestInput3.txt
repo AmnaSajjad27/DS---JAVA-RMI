@@ -1,5 +1,10 @@
-pushValue 12
 pushValue 8
+pushValue 12
+pushOperation lcm
+pop
+pushValue 35
+pushValue 5
 pushOperation gcd
 pop
+isEmpty
 exit

@@ -1,0 +1,10 @@
+pushValue 10
+pushValue 20
+pushOperation max
+pop
+pushValue 15
+pushValue 5
+pushOperation min
+pop
+isEmpty
+exit

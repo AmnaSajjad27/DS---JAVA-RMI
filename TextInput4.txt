@@ -1,5 +1,0 @@
-pushValue 4
-pushValue 5
-pushOperation lcm
-pop
-exit

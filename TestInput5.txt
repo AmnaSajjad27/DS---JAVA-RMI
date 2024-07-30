@@ -1,3 +1,0 @@
-pushValue 100
-delayPop 2000
-exit

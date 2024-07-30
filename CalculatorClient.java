@@ -12,13 +12,13 @@ public class CalculatorClient implements Runnable
         this.stub = stub;
     }
 
-    private void arguments(String arguments[])
+    private void argument_exe(String arguments[], String id)
     {
         if (arguments[0].contains("pushOperation"))
         {
             try
             {
-                this.stub.pushOperation(arguments[1]);
+                this.stub.pushOperation(id, arguments[1]);
             }
             catch (Exception e)
             {
@@ -29,7 +29,7 @@ public class CalculatorClient implements Runnable
         {
             try
             {
-                this.stub.pushValue(Integer.valueOf(arguments[1]));
+                this.stub.pushValue(id, Integer.valueOf(arguments[1]));
             }
             catch (Exception e)
             {
@@ -40,7 +40,7 @@ public class CalculatorClient implements Runnable
         {
             try
             {
-                System.out.println(this.stub.pop());
+                System.out.println(this.stub.pop(id));
             }
             catch (Exception e)
             {
@@ -51,7 +51,7 @@ public class CalculatorClient implements Runnable
         {
             try
             {
-                System.out.println(this.stub.isEmpty());
+                System.out.println(this.stub.isEmpty(id));
             }
             catch (Exception e)
             {
@@ -62,7 +62,7 @@ public class CalculatorClient implements Runnable
         {
             try
             {
-                System.out.println(this.stub.delayPop(Integer.valueOf(arguments[1])));
+                System.out.println(this.stub.delayPop(id, Integer.valueOf(arguments[1])));
             }
             catch (Exception e)
             {
@@ -71,11 +71,11 @@ public class CalculatorClient implements Runnable
         }
     };
 
-    public void fileProcessor()
+    public void fileProcessor(String id)
     {
         try
         {
-            String file = "./TestInputX" + Thread.currentThread().getName() + ".txt";
+            String file = "./TestInput" + Thread.currentThread().getName() + ".txt";
             file = file.replace("Thread-", "");
 
             Scanner in = new Scanner(new File(file));
@@ -85,16 +85,16 @@ public class CalculatorClient implements Runnable
             
             while(exit == false)
             {
-                String arguments = "";
-                arguments += in.nextLine();
+                String command_keyword = "";
+                command_keyword += in.nextLine();
 
-                String argument_split[] = arguments.split(" ");
+                String argument_split[] = command_keyword.split(" ");
 
                 if (argument_split[0].contains("exit"))
                 {
                     exit = true;
                 }
-                arguments(argument_split);
+                argument_exe(argument_split, id);
             }
             in.close();
         }
@@ -106,30 +106,16 @@ public class CalculatorClient implements Runnable
 
     public void run()
     {
+        String id = "empty";
         try
         {
-            // Example of some operations to test the RMI methods
-            stub.pushValue(10);
-            stub.pushValue(20);
-            stub.pushOperation("max");
-            System.out.println("Max value: " + stub.pop()); // Should print 20
-
-            stub.pushValue(15);
-            stub.pushValue(25);
-            stub.pushOperation("min");
-            System.out.println("Min value: " + stub.pop()); // Should print 15
-
-            stub.pushValue(5);
-            stub.pushValue(10);
-            System.out.println("Popped value after delay: " + stub.delayPop(2000)); // Should print 10 after 2 seconds
-
-            // Add more logic if necessary to test different scenarios
-        } 
+            id = this.stub.UserID();
+        }
         catch (Exception e)
         {
-            System.err.println("Client run exception: " + e.toString());
-            e.printStackTrace();
+            System.err.println("Error: " + e.toString());
         }
+        fileProcessor(id);
     }
 
     public static void main(String[] args)

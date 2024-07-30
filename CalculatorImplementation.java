@@ -3,14 +3,17 @@ import java.util.*;
 
 public class CalculatorImplementation implements Calculator
 {
-    // Stack to store values/operations -- MAY USE MAP LATER FOR UNIQUE STACK 
-    private Stack<Integer> stack;
+    // Stack to store values/operations 
+    // private Stack<Integer> stack;
+
+    // Using a map now for uique stack implementation
+    private Map<String, Stack<Integer>> values = new HashMap<>();
 
     // Constructor 
     public CalculatorImplementation() throws RemoteException
     {
         super();
-        this.stack = new Stack<>();
+        // this.stack = new Stack<>();
     }
 
     // Private methods performing lcm and gcd
@@ -28,6 +31,7 @@ public class CalculatorImplementation implements Calculator
     private static int lcm(Stack<Integer> stack)
     {
         int return_lcm = stack.get(0);
+
         for (int i = 1; i < stack.size(); i++)
         {
             int num = stack.get(i);
@@ -46,65 +50,72 @@ public class CalculatorImplementation implements Calculator
         }
         return return_gcd;
     }
-
-    // Public methods 
-    public void pushValue(int val)
+    
+    public String UserID()
     {
-        this.stack.push(val);
+        String id = UUID.randomUUID().toString();
+        this.values.put(id, new Stack<>());
+        return id;
     }
 
-    public void pushOperation(String operator)
+    // Public methods 
+    public void pushValue(String id, int val)
     {
-        if(this.stack.size() > 0)
+        this.values.get(id).push(val);
+    }
+
+    public void pushOperation(String id, String operator)
+    {
+        if(this.values.get(id).size() > 0)
         {
             int result;
             if (operator.contains("min"))
             {
-                result = Collections.min(this.stack);
+                result = Collections.min(this.values.get(id));
             }
             else if (operator.contains("max"))
             {
-                result = Collections.max(this.stack);
+                result = Collections.max(this.values.get(id));
             }
             else if (operator.contains("lcm"))
             {
-                result = lcm(this.stack);
+                result = lcm(this.values.get(id));
             }
             else 
             {
-                result = gcd(this.stack);
+                result = gcd(this.values.get(id));
             }
-            this.stack.clear();
-            this.stack.push(result);
+            this.values.get(id).clear();
+            this.values.get(id).add(result);
         }
     }
 
-    public Integer pop()
+    public Integer pop(String id)
     {
-        if(this.stack.size() == 0)
+        if(this.values.get(id).size() == 0)
         {
             return null;
         }
         else
         {
-            return this.stack.pop();
+            return this.values.get(id).pop();
         }
     }
 
-    public boolean isEmpty()
+    public boolean isEmpty(String id)
     {
-        return this.stack.isEmpty();
+        return this.values.get(id).isEmpty();
     }
 
-    public Integer delayPop(int millis)
+    public Integer delayPop(String id, int millis)
     {
-        if(this.stack.size() > 0)
+        if(this.values.get(id).size() > 0)
         {
             int result = -1;
             try
             {
                 Thread.sleep(millis);
-                result = this.stack.pop();
+                result = this.values.get(id).pop();
             }
             catch (Exception e)
             {
