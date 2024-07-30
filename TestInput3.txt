@@ -1,10 +1,7 @@
-pushValue 8
-pushValue 12
-pushOperation lcm
-pop
-pushValue 35
-pushValue 5
-pushOperation gcd
+pushValue -10
+pushValue 20
+pushValue 30
+pushOperation min
 pop
 isEmpty
 exit

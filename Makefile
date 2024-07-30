@@ -1,5 +1,5 @@
 # the compile command compiles all java files
-compile: *.java
+compile:
 	javac -d ./ *.java
 
 # registry starts the rmiregistry
@@ -8,22 +8,19 @@ registry:
 
 # clean removes all compiled files
 clean:
-	rm *.class
+	rm -f *.class
 
 # server runs the server
 server:
 	java -cp ./ CalculatorServer &
+	sleep 2
 
 # client runs the client, takes input from the TestInput files
 client: CalculatorClient.class
 	java -cp ./ CalculatorClient > Output.txt
 
-# this compares the output of the program with the 2 expected outputs 
-# the reason for 2 expected outputs is because the pop command in line 6
-# of TestInput1.txt could print first or the isEmpty in line 6 of TestInput3.txt 
 outputCompare:
-	diff Output.txt ExpectedOutput0.txt & diff Output.txt ExpectedOutput1.txt
+	diff Output.txt ExpectedOutput0.txt || true
+	diff Output.txt ExpectedOutput1.txt || true 
 
-# test runs the test cases
-test: CalculatorClient.class
-	java -cp ./ CalculatorClient
+test: clean compile registry server client outputCompare

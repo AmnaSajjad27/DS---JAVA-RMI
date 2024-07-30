@@ -1,15 +1,8 @@
-Max value: 20
-Min value: 5
 true
-LCM value: 36
-true
-Popped value after delay: 25
+null
 false
-GCD value: 10
+1
+-10
 true
-Min value: 3
-true
-LCM value: 24
-true
-GCD value: 5
-true
+30
+60

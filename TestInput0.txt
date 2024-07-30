@@ -1,10 +1,7 @@
-pushValue 10
-pushValue 20
-pushOperation max
-pop
-pushValue 15
-pushValue 5
-pushOperation min
-pop
 isEmpty
+pushValue -10
+pushValue 20
+pushValue 30
+pushOperation lcm
+delayPop 1500
 exit

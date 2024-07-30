@@ -16,37 +16,37 @@ public class CalculatorImplementation implements Calculator
         // this.stack = new Stack<>();
     }
 
-    // Private methods performing lcm and gcd
-
-    private static int helper(int x, int y)
-    {
-        if (y == 0)
-        {
-            return x;
-        }
-        return helper(y, x % y);
-    }
-
     // LCM - recurrison to find lcm of current and next element 
+    // second attempt - implement using a helper function 
+    private static int helper_gcd(int x, int y)
+    {
+        while (y != 0)
+        {
+            int temp = y;
+            y = x % y;
+            x = temp;
+        }
+        return x;
+    }
+    private static int helper_lcm(int x, int y)
+    {
+        return (x * y) / helper_gcd(x, y);
+    }
     private static int lcm(Stack<Integer> stack)
     {
         int return_lcm = stack.get(0);
-
         for (int i = 1; i < stack.size(); i++)
         {
-            int num = stack.get(i);
-            return_lcm = (return_lcm * num) / helper(return_lcm, num);
+            return_lcm = helper_lcm(return_lcm, stack.get(i));
         }
         return return_lcm;
     }
-
-    // GCD 
     private static int gcd(Stack<Integer> stack)
     {
         int return_gcd = stack.get(0);
         for (int i = 1; i < stack.size(); i++)
         {
-            return_gcd = helper(return_gcd, stack.get(i));
+            return_gcd = helper_gcd(return_gcd, stack.get(i));
         }
         return return_gcd;
     }

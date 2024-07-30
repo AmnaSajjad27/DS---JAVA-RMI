@@ -1,10 +1,7 @@
-pushValue 40
-pushValue 50
-pushOperation gcd
-pop
-pushValue 7
-pushValue 3
-pushOperation min
-pop
+pushValue -10
+pushValue 20
+pushValue 30
 isEmpty
+pushOperation max
+delayPop 1000
 exit
