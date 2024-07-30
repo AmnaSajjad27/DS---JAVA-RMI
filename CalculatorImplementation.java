@@ -8,6 +8,8 @@ public class CalculatorImplementation implements Calculator
 
     // Using a map now for uique stack implementation
     private Map<String, Stack<Integer>> values = new HashMap<>();
+    // Implementing a lock to ensure synchronising 
+    private final Object mapLock = new Object();
 
     // Constructor 
     public CalculatorImplementation() throws RemoteException
@@ -54,79 +56,97 @@ public class CalculatorImplementation implements Calculator
     public String UserID()
     {
         String id = UUID.randomUUID().toString();
-        this.values.put(id, new Stack<>());
+        synchronized (mapLock)
+        {
+            this.values.put(id, new Stack<>());
+        }
         return id;
     }
 
     // Public methods 
     public void pushValue(String id, int val)
     {
-        this.values.get(id).push(val);
+        synchronized (mapLock)
+        {
+            this.values.get(id).push(val);
+        }
     }
 
     public void pushOperation(String id, String operator)
     {
-        if(this.values.get(id).size() > 0)
+        synchronized (mapLock)
         {
-            int result;
-            if (operator.contains("min"))
+            if(this.values.get(id).size() > 0)
             {
-                result = Collections.min(this.values.get(id));
+                int result;
+                if (operator.contains("min"))
+                {
+                    result = Collections.min(this.values.get(id));
+                }
+                else if (operator.contains("max"))
+                {
+                    result = Collections.max(this.values.get(id));
+                }
+                else if (operator.contains("lcm"))
+                {
+                    result = lcm(this.values.get(id));
+                }
+                else 
+                {
+                    result = gcd(this.values.get(id));
+                }
+                this.values.get(id).clear();
+                this.values.get(id).add(result);
             }
-            else if (operator.contains("max"))
-            {
-                result = Collections.max(this.values.get(id));
-            }
-            else if (operator.contains("lcm"))
-            {
-                result = lcm(this.values.get(id));
-            }
-            else 
-            {
-                result = gcd(this.values.get(id));
-            }
-            this.values.get(id).clear();
-            this.values.get(id).add(result);
         }
     }
 
     public Integer pop(String id)
     {
-        if(this.values.get(id).size() == 0)
+        synchronized (mapLock)
         {
-            return null;
-        }
-        else
-        {
-            return this.values.get(id).pop();
+            if(this.values.get(id).size() == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return this.values.get(id).pop();
+            }
         }
     }
 
     public boolean isEmpty(String id)
     {
-        return this.values.get(id).isEmpty();
+        synchronized (mapLock)
+        {
+            return this.values.get(id).isEmpty();
+        }
     }
 
     public Integer delayPop(String id, int millis)
     {
-        if(this.values.get(id).size() > 0)
+        synchronized (mapLock)
         {
-            int result = -1;
-            try
+            if(this.values.get(id).size() > 0)
             {
-                Thread.sleep(millis);
-                result = this.values.get(id).pop();
+                int result = -1;
+                try
+                {
+                    Thread.sleep(millis);
+                    result = this.values.get(id).pop();
+                }
+                catch (Exception e)
+                {
+                    System.err.println("Server exception: " + e.toString());
+                    e.printStackTrace();
+                }
+                return result;
             }
-            catch (Exception e)
+            else
             {
-                System.err.println("Server exception: " + e.toString());
-                e.printStackTrace();
+                return null;
             }
-            return result;
-        }
-        else
-        {
-            return null;
         }
     }
 }
