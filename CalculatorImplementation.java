@@ -1,5 +1,6 @@
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class CalculatorImplementation implements Calculator
 {
@@ -7,9 +8,8 @@ public class CalculatorImplementation implements Calculator
     // private Stack<Integer> stack;
 
     // Using a map now for uique stack implementation
-    private Map<String, Stack<Integer>> values = new HashMap<>();
+    private final Map<String, ConcurrentLinkedDeque<Integer>> values = new HashMap<>();
     // Implementing a lock to ensure synchronising 
-    private final Object mapLock = new Object();
 
     // Constructor 
     public CalculatorImplementation() throws RemoteException
@@ -34,21 +34,21 @@ public class CalculatorImplementation implements Calculator
     {
         return (x * y) / helper_gcd(x, y);
     }
-    private static int lcm(Stack<Integer> stack)
+    private static int lcm(ConcurrentLinkedDeque<Integer> stack)
     {
-        int return_lcm = stack.get(0);
-        for (int i = 1; i < stack.size(); i++)
+        int return_lcm = stack.peekFirst();
+        for (Integer value : stack)
         {
-            return_lcm = helper_lcm(return_lcm, stack.get(i));
+            return_lcm = helper_lcm(return_lcm, value);
         }
         return return_lcm;
     }
-    private static int gcd(Stack<Integer> stack)
+    private static int gcd(ConcurrentLinkedDeque<Integer> stack)
     {
-        int return_gcd = stack.get(0);
-        for (int i = 1; i < stack.size(); i++)
+        int return_gcd = stack.peekFirst();
+        for (Integer value : stack)
         {
-            return_gcd = helper_gcd(return_gcd, stack.get(i));
+            return_gcd = helper_gcd(return_gcd, value);
         }
         return return_gcd;
     }
@@ -56,27 +56,29 @@ public class CalculatorImplementation implements Calculator
     public String UserID()
     {
         String id = UUID.randomUUID().toString();
-        synchronized (mapLock)
-        {
-            this.values.put(id, new Stack<>());
-        }
+        this.values.put(id, new ConcurrentLinkedDeque<>());
         return id;
     }
 
     // Public methods 
     public void pushValue(String id, int val)
     {
-        synchronized (mapLock)
+        ConcurrentLinkedDeque<Integer> stack = this.values.get(id);
+        if (stack != null)
         {
-            this.values.get(id).push(val);
+            synchronized(stack)
+            {
+                stack.push(val);
+            }
         }
     }
 
     public void pushOperation(String id, String operator)
     {
-        synchronized (mapLock)
+        ConcurrentLinkedDeque<Integer> stack = this.values.get(id);
+        if(stack != null && !stack.isEmpty())
         {
-            if(this.values.get(id).size() > 0)
+            synchronized (stack)
             {
                 int result;
                 if (operator.contains("min"))
@@ -95,58 +97,56 @@ public class CalculatorImplementation implements Calculator
                 {
                     result = gcd(this.values.get(id));
                 }
-                this.values.get(id).clear();
-                this.values.get(id).add(result);
+                stack.clear();
+                stack.add(result);
             }
         }
     }
 
     public Integer pop(String id)
     {
-        synchronized (mapLock)
+        ConcurrentLinkedDeque<Integer> stack = this.values.get(id);
+        if(stack != null && !stack.isEmpty())
         {
-            if(this.values.get(id).size() == 0)
+            synchronized (stack)
             {
-                return null;
+                return stack.pop();
             }
-            else
-            {
-                return this.values.get(id).pop();
-            }
+        }
+        else
+        {
+            return null;
         }
     }
 
+
     public boolean isEmpty(String id)
     {
-        synchronized (mapLock)
-        {
-            return this.values.get(id).isEmpty();
-        }
+        ConcurrentLinkedDeque<Integer> stack = this.values.get(id);
+        return stack == null || stack.isEmpty();
     }
 
     public Integer delayPop(String id, int millis)
     {
-        synchronized (mapLock)
+        ConcurrentLinkedDeque<Integer> stack = this.values.get(id);
+        if(stack != null && !stack.isEmpty())
         {
-            if(this.values.get(id).size() > 0)
+            int result = -1;
+            try
             {
-                int result = -1;
-                try
+                Thread.sleep(millis);
+                synchronized (stack)
                 {
-                    Thread.sleep(millis);
-                    result = this.values.get(id).pop();
+                    return stack.pop();
                 }
-                catch (Exception e)
-                {
-                    System.err.println("Server exception: " + e.toString());
-                    e.printStackTrace();
-                }
-                return result;
             }
-            else
+            catch (Exception e)
             {
-                return null;
+                System.err.println("Server exception: " + e.toString());
+                e.printStackTrace();
             }
+            return result;
         }
+        return null;  
     }
 }
