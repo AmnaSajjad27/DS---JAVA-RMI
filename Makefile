@@ -13,7 +13,7 @@ clean:
 # server runs the server
 server:
 	java -cp ./ CalculatorServer &
-	sleep 2
+	sleep 5
 
 # client runs the client, takes input from the TestInput files
 client: CalculatorClient.class
