@@ -6,9 +6,21 @@ import java.rmi.server.UnicastRemoteObject;
 public class CalculatorImplementation implements Calculator {
     private final Map<String, ConcurrentLinkedDeque<Integer>> values = new ConcurrentHashMap<>();
 
+    /**
+     * Constructor for CalculatorImplementation 
+     * @throws RemoteException if there is an issue with the RMI
+     */
+
     public CalculatorImplementation() throws RemoteException {
         super();
     }
+
+    /**
+     * Helper function to calculate GCD of two numbers 
+     * @param x First number
+     * @param y Second number
+     * @return The GCD of x and y
+     */
 
     private static int helper_gcd(int x, int y) {
         while (y != 0) {
@@ -19,9 +31,22 @@ public class CalculatorImplementation implements Calculator {
         return x;
     }
 
+    /**
+     * Helper function to calculate the LCM of two numbers
+     * @param x First number
+     * @param y Second number
+     * @return The LCM of x and y
+     */
+
     private static int helper_lcm(int x, int y) {
         return (x * y) / helper_gcd(x, y);
     }
+
+    /**
+     * Calculate the least LCM of all values in the stack 
+     * @param stack, The stack containing values
+     * @return the LCM of all value in the stack 
+     */
 
     private static int lcm(ConcurrentLinkedDeque<Integer> stack) {
         int return_lcm = stack.peekFirst();
@@ -31,6 +56,12 @@ public class CalculatorImplementation implements Calculator {
         return return_lcm;
     }
 
+    /**
+     * Calculates the GCD of all values in the stack
+     * @param stack, The stack containing values
+     * @return The GCD of all values in the stack 
+     */
+
     private static int gcd(ConcurrentLinkedDeque<Integer> stack) {
         int return_gcd = stack.peekFirst();
         for (Integer value : stack) {
@@ -39,11 +70,23 @@ public class CalculatorImplementation implements Calculator {
         return return_gcd;
     }
 
+    /**
+     * Generates a new unique ID and initialises a new stack for the user
+     * @return unique id for the new user 
+     */
+
     public String UserID() {
         String id = UUID.randomUUID().toString();
         values.put(id, new ConcurrentLinkedDeque<>());
         return id;
     }
+
+    /**
+     * Pushes a value on to the stack associated with the given id
+     * @param id, The user id
+     * @param val, the value to be pushed onto the stack 
+     * synchronized to ensure thread safety
+     */
 
     public void pushValue(String id, int val) {
         ConcurrentLinkedDeque<Integer> stack = values.get(id);
@@ -53,6 +96,13 @@ public class CalculatorImplementation implements Calculator {
             }
         }
     }
+
+    /**
+     * Applies operations on the stack associated with the user's unique id
+     * @param id, user id
+     * @param operator, the operation to be applied 
+     * synchronized to ensure thread safety
+     */
 
     public void pushOperation(String id, String operator) {
         ConcurrentLinkedDeque<Integer> stack = values.get(id);
@@ -74,6 +124,13 @@ public class CalculatorImplementation implements Calculator {
         }
     }
 
+    /**
+     * Pops a value from the stack associated with the unique user id
+     * @param id, the user id
+     * @return the popped value 
+     * synchronized to ensure thread safety
+     */
+
     public Integer pop(String id) 
     {
         ConcurrentLinkedDeque<Integer> stack = values.get(id);
@@ -91,6 +148,12 @@ public class CalculatorImplementation implements Calculator {
         }
     }
 
+    /**
+     * checks if stack is empty
+     * @param id, the user id
+     * @return True if stack is empty, false otherwise
+     */
+
     public boolean isEmpty(String id) {
         ConcurrentLinkedDeque<Integer> stack = values.get(id);
         synchronized (stack)
@@ -99,6 +162,13 @@ public class CalculatorImplementation implements Calculator {
 
         }
     }
+
+    /**
+     * Pops a value from the stack associated with the given user ID after a delay
+     * @param id The user id
+     * @param millis The delay in milliseconds before popping the value
+     * @return The popped value 
+     */
 
     public Integer delayPop(String id, int millis) {
         ConcurrentLinkedDeque<Integer> stack = values.get(id);
