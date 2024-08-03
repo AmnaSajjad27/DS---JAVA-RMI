@@ -7,10 +7,23 @@ public class CalculatorClient implements Runnable
 {
     private Calculator stub;
 
+    /** 
+     * Constructor fot Calculator Client
+     * @param stub An instance of the Calculator interface, used to make RMI calls. 
+     */
+
     public CalculatorClient(Calculator stub)
     {
         this.stub = stub;
     }
+
+    /**
+     * Function to execute operations specified by the user in the arguments array
+     * @param arguments, Array contains the command and its arguments
+     * @param id, id is the user id for which the command is being executed
+     * The method calls different methods on the stub based on the command.
+     * Hanles exceptions if the stub method 
+     */
 
     private void argument_exe(String arguments[], String id)
     {
@@ -71,6 +84,14 @@ public class CalculatorClient implements Runnable
         }
     };
 
+    /**
+     * Read and process input and executes them
+     * @param id, the user id to identify which user to execute for
+     * The method reads input from file, splits into arguments and command 
+     * and then executes using the argument_exe method
+     * Handles exceptions if oeprations fail 
+     */
+
     public void fileProcessor(String id)
     {
         try
@@ -104,6 +125,12 @@ public class CalculatorClient implements Runnable
         }
     }
 
+    /**
+     * Method gets a user ID by calling userID method on the stub
+     * Then calls fileprocessor to process commands 
+     * Handles exceptions if the stub method call fails 
+     */
+
     public void run()
     {
         String id = "empty";
@@ -117,6 +144,13 @@ public class CalculatorClient implements Runnable
         }
         fileProcessor(id);
     }
+
+    /**
+     * Main method to start client
+     * @param args, method connects to the RMI registry, looks up the Calculator stub
+     * and starts multiple client threads
+     * Handles exceptions if the RMI lookup or thread start fails
+     */
 
     public static void main(String[] args)
     {

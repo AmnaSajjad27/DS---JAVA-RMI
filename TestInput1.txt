@@ -1,4 +1,4 @@
-pop
+isEmpty
 pushValue 10
 pushValue 20
 pushValue 31
