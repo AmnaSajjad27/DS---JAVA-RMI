@@ -1,5 +1,5 @@
 # the compile command compiles all java files
-compile:
+compile: *.java
 	javac -d ./ *.java
 
 # registry starts the rmiregistry
