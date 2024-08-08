@@ -1,2 +1,2 @@
-compile:
+make:
 	javac -d ./ ./*.java
