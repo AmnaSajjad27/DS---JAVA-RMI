@@ -60,4 +60,8 @@ Running 'make outputCompare' to compare the actual output with the expected oupu
 Running 'make make' will execute the complete workflow i.e. it will first clean the directory of old compilied .class files, then compile, start the RMI registry, start the server, then the client and then display the expected output and acutual output on the terminal. The program uses Testinput 0, 1, 2 and 3 to conduct a test.
 
 ## **Testing** ##
+In this assignment, I have implemented automated testing by creating four input files (TestInput0.txt, TestInput1.txt, TestInput2.txt, TestInput3.txt) that represent four different clients interacting with the server. These files contains various command including edge cases and other valid operations.
 
+Each one of the function implemented (createUserID, pushValue, pushOperation, pop, isEmpty, delayPop) is tested by these four files. The CalculatorClient.java file initialises four threads each representing a differnt client. The fileProcessor() function reads these commands and then the argument_exe() function sends the associated requests to the server to be completed. 
+
+The ouputs from these tests are captured and directed to a file "Output.txt". There are two expected outputs for this specific test case to account for the inherent non-determinism in the order of thread execution. If the test matches either of the two expected outputs, the test is successful. 
