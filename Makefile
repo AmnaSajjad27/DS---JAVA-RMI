@@ -1,4 +1,6 @@
-
+compile:
+	javac -d ./ *.java
+		
 # registry starts the rmiregistry
 registry:
 	rmiregistry &
