@@ -18,9 +18,11 @@ The program is composed of four main files:
 1. **Calculator.java:** This interface defines the methods that can be invoked by the client. It includes operations such as 'pushValue', 'pushOperation', 'pop', 'isEmpty', 'delayPop', and 'CreateUserID'.
 2. **CalculatorClient.java:** This file contains the client-side implementation. The client interacts with the server to perform operations on its stack. This file handles command-line inputs and communictes with the server using methods defined in the calculator interface. 
 3. **Calculatorimplementation.java:** This file contains the server-side implementation of the Calculator interface. This file manages individual stacks for each client using a unique ID. The operations managed include pushing integer values onto the stack and performing operations such as min, max, gcd and lcm. 
-4. **CalculatorServer.java:** This file sets up the RMI registry and binds the CalculatorImplementation to a name, which then allows it to become available for clients to look up and invoke methods remotely.  
+4. **CalculatorServer.java:** This file sets up the RMI registry and binds the CalculatorImplementation to a name, which then allows it to become available for clients to look up and invoke methods remotely.
 
-## Compliling the program:##
+
+
+##Compliling the program:##
 please note that a makefile has been provided for your convience. 
 
 - To compile the program, use the command "make compile".
