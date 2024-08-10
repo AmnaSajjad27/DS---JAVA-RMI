@@ -1,9 +1,11 @@
-**Objective**:
-The objective of this assignment is to gain understanding of Remote Mehtod Invocation in Java. This assignment develops a calculator program. 
+### **JAVA RMI Calculator Program**
 
-The calculator server operates a stack and the client pushes values and operations on to the stack. For bonus marks, I have implemented the program so that each client has its own stack. 
+## **Objective:**
 
-Assumptions: 
+The objective of this assignment is to gain a deeper understanding of Remote Mehtod Invocation(RMI) in Java by developing a distributed calcultor program.The calculator server operates on a stack, and each client has its own dedicated stack, supporting concurrent operations across multiple clients.
+
+## **Assumptions:**
+
 1. All operations pushed are always sensiable i.e. an operator will only be pushed after pushing atleast one value onto the stack i.e. pop will not be used if stack is empty. 
 2. Operator provided will be either one of the four specified in the assignment descrption. 
 3. Values pushed are always integers. 
