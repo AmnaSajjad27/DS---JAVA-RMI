@@ -30,28 +30,33 @@ The program is composed of four main files:
 - **Concurrency:** The program supports concurrent client operations. It also ensures thread safety and avoids race conditions using synchronised blocks.
 
 ### **Methods** ###
+- **public String UserID():** Generates and return a unique identifier to each client. This is used to manage seprate stacks.
+- **public void pushValue(String id, int val):** Pushes a value onto the stack associated with the provided userID.
+- **public void pushOperation(String id, String operator):** Applies the specified operation to the stack associated with UserID.
+- **public Integer pop(String id):** Pops and returns the top value to the client.
+- **public boolean isEmpty(String id):** Checks if stack is empty.
+- **public Integer delayPop(String id, int millis):** Pops the top value from the stack after a specified delay in milliseconds. 
 
-### Methods ###
+## **Compilation and Execution** ##
 
-## Compliling the program: ##
-please note that a makefile has been provided for your convience. 
+### Steps for execution ###
+A Makefile has been provided to streamline the process of compiling, running, and testing the program. 
 
-- To compile the program, use the command "make compile".
-- Then to start the rmiregistry, use the command "make registry".
-- To start the server, use "make server" and then simmilary for the client, use "make client". 
-- Then enter your desired inputs to test the program. 
-- To test using existing testing files, run the command "make make". This command cleans the directory of files not needed, then compiles, starts the rmiregistry, starts the server and client and then uses Testinput 0, 1, 2 and 3 to conduct a concurrency test. The output is then displayed on the terminal using outputCompare. 
+1. **Clean compiled files**
+Running 'make clean' to remove all compiled '.class' files in the directory. 
+2. **Compile the program**
+Running "make compile" to compile all the '.java' files in the directory. 
+3. **Start the RMI Registry**
+Running "make registry' to start the RMI registry in the background. This allows the server to register remote objects. 
+4. **Start the Server**
+Running 'make server' to start the calculator server in the background. The server registers the remote objects with the RMI registry and waits for client connections.
+5. **Start the client**
+Running 'make client' to start the client and execute the operations specified in the 'TestInput' files. The output is saved in "Output.txt". 
+6. **Compare Outputs**
+Running 'make outputCompare' to compare the actual output with the expected ouput saved in 'ExpectedOutput0.txt', 'ExpectedOutput1.txt'.
 
-Program files and structure:
-The program has 4 main files: 
-1. Calculator.Java 
-2. CalculatorClient.java
-3. CalculatorImplementation.java
-4. CalculatorServer.java
+### **Complete workflow** ###
+Running 'make make' will execute the complete workflow i.e. it will first clean the directory of old compilied .class files, then compile, start the RMI registry, start the server, then the client and then display the expected output and acutual output on the terminal. The program uses Testinput 0, 1, 2 and 3 to conduct a test.
 
-Functionality
+## **Testing** ##
 
-Key features and functions 
-- String create UserID()
-
-Testing 
