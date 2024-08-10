@@ -6,11 +6,11 @@ The objective of this assignment is to gain a deeper understanding of Remote Meh
 
 ## **Assumptions:**
 
-1. ### **Valid Operations:** ###
+1. **Valid Operations:**
 All operations pushed onto the stack are always sensible. For instance, an operator will only be pushed after at least one value has been added to the stack. A **'pop'** operation not be used if the stack is empty.
-2. ### **Supported Operators:** ###
+2. **Supported Operators:**
 The operators supported for this calculator program are as specified in the assignment description ('min', 'max', 'gcd', 'lcm').
-3. ### **Integer Values:** ###
+3. **Integer Values:**
 Only integer values are pushed onto the stack.
 
 Compliling the program:
