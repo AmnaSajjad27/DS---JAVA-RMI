@@ -15,6 +15,7 @@ server:
 
 # client runs the client, takes input from the TestInput files
 client: CalculatorClient.class
+	sleep 3
 	java -cp ./ CalculatorClient > Output.txt
 
 outputCompare:

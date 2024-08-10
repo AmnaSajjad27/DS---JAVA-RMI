@@ -48,6 +48,7 @@ Running 'make clean' to remove all compiled '.class' files in the directory.
 Running "make compile" to compile all the '.java' files in the directory. 
 3. **Start the RMI Registry**
 Running "make registry' to start the RMI registry in the background. This allows the server to register remote objects. 
+There is a 'Sleep 3' command after starting the RMI registry to ensure there is enough time to properly start the registry before the server and client try to connect.
 4. **Start the Server**
 Running 'make server' to start the calculator server in the background. The server registers the remote objects with the RMI registry and waits for client connections.
 5. **Start the client**
