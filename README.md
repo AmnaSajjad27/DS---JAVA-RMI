@@ -1,4 +1,4 @@
-Objective:
+**Objective**:
 The objective of this assignment is to gain understanding of Remote Mehtod Invocation in Java. This assignment develops a calculator program. 
 
 The calculator server operates a stack and the client pushes values and operations on to the stack. For bonus marks, I have implemented the program so that each client has its own stack. 
